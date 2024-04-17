@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Booking System</title>
+</head>
+<body>
+    <h1>Event Booking System</h1>
+    <div id="event1">
+        <h2>Conference</h2>
+        <p>Date: 2024-04-20</p>
+        <p>Capacity: 100</p>
+        <button onclick="bookSeat('event1')">Book Seat</button>
+        <button onclick="cancelSeat('event1')">Cancel Seat</button>
+    </div>
+    <div id="event2">
+        <h2>Workshop</h2>
+        <p>Date: 2024-04-22</p>
+        <p>Capacity: 100</p>
+        <button onclick="bookSeat('event2')">Book Seat</button>
+        <button onclick="cancelSeat('event2')">Cancel Seat</button>
+    </div>
+    <script>
+        function Event(name, date, capacity) {
+            this.name = name;
+            this.date = date;
+            this.capacity = capacity;
+            this.bookedSeats = 0;
+        }
+        Event.prototype.bookSeat = function() {
+            if (this.bookedSeats < this.capacity) {
+                this.bookedSeats++;
+                console.log("Seat booked for " + this.name);
+                updateEventInfo();
+            } else {
+                console.log("No more seats available for " + this.name);
+            }
+        };
+        Event.prototype.cancelSeat = function() {
+            if (this.bookedSeats > 0) {
+                this.bookedSeats--;
+                console.log("Seat cancelled for " + this.name);
+                updateEventInfo();
+            } else {
+                console.log("No seat booked for " + this.name);
+            }
+        };
+        var event1 = new Event("Conference", "2024-04-20", 100);
+        var event2 = new Event("Workshop", "2024-04-22", 100);
+        function bookSeat(eventId) {
+            if (eventId === 'event1') {
+                event1.bookSeat();
+            } else if (eventId === 'event2') {
+                event2.bookSeat();
+            }
+        }
+        function cancelSeat(eventId) {
+            if (eventId === 'event1') {
+                event1.cancelSeat();
+            } else if (eventId === 'event2') {
+                event2.cancelSeat();
+            }
+        }
+
+        function updateEventInfo() {
+            document.getElementById('event1').innerHTML = `
+                <h2>Conference</h2>
+                <p>Date: 2024-04-20</p>
+                <p>Capacity: 100</p>
+                <p>Booked Seats: ${event1.bookedSeats}</p>
+                <button onclick="bookSeat('event1')">Book Seat</button>
+                <button onclick="cancelSeat('event1')">Cancel Seat</button>
+            `;
+            document.getElementById('event2').innerHTML = `
+                <h2>Workshop</h2>
+                <p>Date: 2024-04-22</p>
+                <p>Capacity: 100</p>
+                <p>Booked Seats: ${event2.bookedSeats}</p>
+                <button onclick="bookSeat('event2')">Book Seat</button>
+                <button onclick="cancelSeat('event2')">Cancel Seat</button>
+            `;
+        }
+    </script>
+</body>
+</html>
